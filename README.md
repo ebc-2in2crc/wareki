@@ -85,7 +85,7 @@ $ brew install wareki
 
 ## Licence
 
-[MIT](https://github.com/ebc-2in2crc/wareki/blob/master/LICENCE)
+[MIT](https://github.com/ebc-2in2crc/wareki/blob/master/LICENSE)
 
 ## Author
 
