@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ebc-2in2crc/golang-suburi/gengo"
+	"github.com/ebc-2in2crc/wareki/gengo"
 	"github.com/urfave/cli"
 )
 
