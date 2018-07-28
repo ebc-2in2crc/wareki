@@ -1,4 +1,4 @@
-package wareki
+package main
 
 import (
 	"errors"
