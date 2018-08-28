@@ -13,10 +13,21 @@ type Gengo struct {
 	to        time.Time
 }
 
-var MEIJI = meiji
-var TAISHO = taisho
-var SHOWA = showa
-var HEISEI = heisei
+func MEIJI() *Gengo {
+	return meiji
+}
+
+func TAISHO() *Gengo {
+	return taisho
+}
+
+func SHOWA() *Gengo {
+	return showa
+}
+
+func HEISEI() *Gengo {
+	return heisei
+}
 
 func Now() (*Gengo, error) {
 	return Date(time.Now())

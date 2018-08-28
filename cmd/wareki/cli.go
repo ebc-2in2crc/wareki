@@ -138,13 +138,13 @@ func mustWarekiToAC(c *cli.Context) bool {
 func warekiToAC(c *cli.Context) {
 	switch {
 	case c.Int("M") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.MEIJI.ToAC(c.Int("M")))
+		fmt.Fprintf(clo.outStream, "%d\n", gengo.MEIJI().ToAC(c.Int("M")))
 	case c.Int("T") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.TAISHO.ToAC(c.Int("T")))
+		fmt.Fprintf(clo.outStream, "%d\n", gengo.TAISHO().ToAC(c.Int("T")))
 	case c.Int("S") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.SHOWA.ToAC(c.Int("S")))
+		fmt.Fprintf(clo.outStream, "%d\n", gengo.SHOWA().ToAC(c.Int("S")))
 	case c.Int("H") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.HEISEI.ToAC(c.Int("H")))
+		fmt.Fprintf(clo.outStream, "%d\n", gengo.HEISEI().ToAC(c.Int("H")))
 	}
 }
 
