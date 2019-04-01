@@ -17,6 +17,7 @@ func TestGengoInstance(t *testing.T) {
 		{g: taisho, name: "taisho", shortName: "T", kanjiName: "大正"},
 		{g: showa, name: "showa", shortName: "S", kanjiName: "昭和"},
 		{g: heisei, name: "heisei", shortName: "H", kanjiName: "平成"},
+		{g: reiwa, name: "reiwa", shortName: "R", kanjiName: "令和"},
 	}
 
 	for _, p := range params {
@@ -52,7 +53,7 @@ func TestBetween(t *testing.T) {
 
 func TestValues(t *testing.T) {
 	actual := Values()
-	expect := []*Gengo{meiji, taisho, showa, heisei}
+	expect := []*Gengo{meiji, taisho, showa, heisei, reiwa}
 
 	if len(actual) != len(expect) {
 		t.Errorf("len(Values()) = %d; want %d", len(actual), len(expect))
@@ -81,7 +82,9 @@ func TestDate(t *testing.T) {
 		{t: time.Date(1926, 12, 25, 0, 0, 0, 0, jst), expect: showa, err: nil},
 		{t: time.Date(1989, 1, 7, 23, 59, 59, 0, jst), expect: showa, err: nil},
 		{t: time.Date(1989, 1, 8, 0, 0, 0, 0, jst), expect: heisei, err: nil},
-		{t: time.Date(9999, 12, 31, 0, 0, 0, 0, jst), expect: heisei, err: nil},
+		{t: time.Date(2019, 4, 30, 23, 59, 59, 0, jst), expect: heisei, err: nil},
+		{t: time.Date(2019, 5, 1, 0, 0, 0, 0, jst), expect: reiwa, err: nil},
+		{t: time.Date(9999, 12, 31, 0, 0, 0, 0, jst), expect: reiwa, err: nil},
 	}
 
 	for _, p := range params {
@@ -119,7 +122,9 @@ func TestConvert(t *testing.T) {
 		{t: time.Date(1926, 12, 25, 0, 0, 0, 0, jst), g: showa, expect: 1},
 		{t: time.Date(1989, 1, 7, 23, 59, 59, 0, jst), g: showa, expect: 64},
 		{t: time.Date(1989, 1, 8, 0, 0, 0, 0, jst), g: heisei, expect: 1},
-		{t: time.Date(9999, 12, 31, 0, 0, 0, 0, jst), g: heisei, expect: 8011},
+		{t: time.Date(2019, 4, 30, 23, 59, 59, 0, jst), g: heisei, expect: 31},
+		{t: time.Date(2019, 5, 1, 0, 0, 0, 0, jst), g: reiwa, expect: 1},
+		{t: time.Date(9999, 12, 31, 0, 0, 0, 0, jst), g: reiwa, expect: 7981},
 	}
 
 	for _, p := range params {
@@ -148,6 +153,8 @@ func TestToAC(t *testing.T) {
 		{g: showa, year: 64, expect: 1989},
 		{g: heisei, year: 1, expect: 1989},
 		{g: heisei, year: 30, expect: 2018},
+		{g: reiwa, year: 1, expect: 2019},
+		{g: reiwa, year: 2, expect: 2020},
 	}
 
 	for _, p := range params {
