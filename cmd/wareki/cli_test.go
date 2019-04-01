@@ -46,6 +46,8 @@ func TestRun_warekiToACFlag(t *testing.T) {
 		{argstr: AppName + " -S 1", expect: "1926"},
 		{argstr: AppName + " --heisei 1", expect: "1989"},
 		{argstr: AppName + " -H 1", expect: "1989"},
+		{argstr: AppName + " --reiwa 1", expect: "2019"},
+		{argstr: AppName + " -R 1", expect: "2019"},
 	}
 
 	for _, p := range params {
@@ -75,6 +77,7 @@ func TestRun_acToWareki(t *testing.T) {
 		{argstr: AppName + " 1912/07/30", expect: "T1"},
 		{argstr: AppName + " 1926/12/25", expect: "S1"},
 		{argstr: AppName + " 1989/01/08", expect: "H1"},
+		{argstr: AppName + " 2019/05/01", expect: "R1"},
 		{argstr: AppName + " 1989/01", expect: "S64"},
 		{argstr: AppName + " 1989", expect: "S64"},
 	}

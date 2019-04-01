@@ -56,8 +56,8 @@ func description() string {
   AC は省略でき, デフォルト値はシステム日付になります.
   デフォルトでは, 元号は英大文字1文字で出力しますが (e.g. H) --kanji オ
   プションを指定することにより漢字で出力することもできます (e.g. 平成)
-  また, --meiji, --taisho, --showa, --heisei オプションにより, 和暦か
-  ら西暦に変換することもできます.`
+  また, --meiji, --taisho, --showa, --heisei, --reiwa オプションによ
+  り, 和暦から西暦に変換することもできます.`
 }
 
 func flags() []cli.Flag {
@@ -77,6 +77,10 @@ func flags() []cli.Flag {
 		cli.IntFlag{
 			Name:  "heisei, H",
 			Usage: "平成から西暦に変換します",
+		},
+		cli.IntFlag{
+			Name:  "reiwa, R",
+			Usage: "令和から西暦に変換します",
 		},
 		cli.BoolFlag{
 			Name:  "kanji, K",
@@ -132,7 +136,8 @@ func mustWarekiToAC(c *cli.Context) bool {
 	return c.Int("M") != 0 ||
 		c.Int("T") != 0 ||
 		c.Int("S") != 0 ||
-		c.Int("H") != 0
+		c.Int("H") != 0 ||
+		c.Int("R") != 0
 }
 
 func warekiToAC(c *cli.Context) {
@@ -145,6 +150,8 @@ func warekiToAC(c *cli.Context) {
 		fmt.Fprintf(clo.outStream, "%d\n", gengo.SHOWA().ToAC(c.Int("S")))
 	case c.Int("H") != 0:
 		fmt.Fprintf(clo.outStream, "%d\n", gengo.HEISEI().ToAC(c.Int("H")))
+	case c.Int("R") != 0:
+		fmt.Fprintf(clo.outStream, "%d\n", gengo.REIWA().ToAC(c.Int("R")))
 	}
 }
 
