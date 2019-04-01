@@ -29,6 +29,10 @@ func HEISEI() *Gengo {
 	return heisei
 }
 
+func REIWA() *Gengo {
+	return reiwa
+}
+
 func Now() (*Gengo, error) {
 	return Date(time.Now())
 }
@@ -69,7 +73,7 @@ func Values() []*Gengo {
 	return values
 }
 
-var values = []*Gengo{meiji, taisho, showa, heisei}
+var values = []*Gengo{meiji, taisho, showa, heisei, reiwa}
 
 var jst, _ = time.LoadLocation("Asia/Tokyo")
 
@@ -100,6 +104,13 @@ var (
 		"H",
 		"平成",
 		time.Date(1989, 1, 7, 23, 59, 59, 0, jst),
+		time.Date(2019, 5, 1, 0, 0, 0, 0, jst),
+	}
+	reiwa = &Gengo{
+		"reiwa",
+		"R",
+		"令和",
+		time.Date(2019, 4, 30, 23, 59, 59, 0, jst),
 		time.Date(9999, 12, 31, 23, 59, 59, 0, jst),
 	}
 )
