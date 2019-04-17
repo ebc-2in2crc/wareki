@@ -1,4 +1,4 @@
-package gengo
+package wareki
 
 import (
 	"errors"

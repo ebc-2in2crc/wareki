@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ebc-2in2crc/wareki/gengo"
+	"github.com/ebc-2in2crc/wareki"
 	"github.com/urfave/cli"
 )
 
@@ -143,21 +143,21 @@ func mustWarekiToAC(c *cli.Context) bool {
 func warekiToAC(c *cli.Context) {
 	switch {
 	case c.Int("M") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.MEIJI().ToAC(c.Int("M")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAC(c.Int("M")))
 	case c.Int("T") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.TAISHO().ToAC(c.Int("T")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAC(c.Int("T")))
 	case c.Int("S") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.SHOWA().ToAC(c.Int("S")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAC(c.Int("S")))
 	case c.Int("H") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.HEISEI().ToAC(c.Int("H")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAC(c.Int("H")))
 	case c.Int("R") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", gengo.REIWA().ToAC(c.Int("R")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAC(c.Int("R")))
 	}
 }
 
 func acToWareki(c *cli.Context) error {
 	f := func(t time.Time, kanji bool) (string, error) {
-		g, err := gengo.Date(t)
+		g, err := wareki.Date(t)
 		if err != nil {
 			return "", err
 		}
