@@ -13,23 +13,25 @@ import (
 )
 
 const (
-	ExitCodeOK = iota
-	ExitCodeError
+	exitCodeOK = iota
+	exitCodeError
 )
 
+// CLO 標準入出力を入れ替えるための構造体
 type CLO struct {
 	outStream, errStream io.Writer
 }
 
 var clo *CLO
 
+// Run エントリーポイント
 func (c *CLO) Run(args []string) int {
 	clo = c
 
 	app := cli.NewApp()
-	app.Name = AppName
+	app.Name = appName
 	app.Usage = "西暦を和暦に変換する"
-	app.Version = Version
+	app.Version = version
 	app.HideHelp = true
 	app.HideVersion = true
 	app.Description = description()
@@ -40,12 +42,11 @@ func (c *CLO) Run(args []string) int {
 	app.ErrWriter = c.errStream
 
 	err := app.Run(args)
-	if err == nil {
-		return ExitCodeOK
-	} else {
+	if err != nil {
 		fmt.Fprintf(clo.errStream, "%v\n", err)
-		return ExitCodeError
+		return exitCodeError
 	}
+	return exitCodeOK
 }
 
 func description() string {
@@ -126,9 +127,8 @@ func action() func(c *cli.Context) error {
 		if mustWarekiToAC(c) == true {
 			warekiToAC(c)
 			return nil
-		} else {
-			return acToWareki(c)
 		}
+		return acToWareki(c)
 	}
 }
 
@@ -165,21 +165,19 @@ func acToWareki(c *cli.Context) error {
 		year := g.Convert(t)
 		if kanji {
 			return g.KanjiName() + strconv.Itoa(year), nil
-		} else {
-			return g.ShortName() + strconv.Itoa(year), nil
 		}
+		return g.ShortName() + strconv.Itoa(year), nil
 	}
 
 	// 西暦から和暦に変換
 	// 引数がないときはシステム日付を和暦に変換
 	if c.NArg() == 0 {
 		str, err := f(time.Now(), c.Bool("K"))
-		if err == nil {
-			fmt.Fprintf(clo.outStream, "%s\n", str)
-			return nil
-		} else {
+		if err != nil {
 			return err
 		}
+		fmt.Fprintf(clo.outStream, "%s\n", str)
+		return nil
 	}
 
 	// 引数があるときは日付にパースして和暦に変換
@@ -208,10 +206,9 @@ func acToWareki(c *cli.Context) error {
 	}
 
 	str, err := f(t, c.Bool("K"))
-	if err == nil {
-		fmt.Fprintf(clo.outStream, "%s\n", str)
-		return nil
-	} else {
+	if err != nil {
 		return err
 	}
+	fmt.Fprintf(clo.outStream, "%s\n", str)
+	return nil
 }

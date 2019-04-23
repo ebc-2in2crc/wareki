@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Gengo 日本の元号を表す
 type Gengo struct {
 	name      string
 	shortName string
@@ -13,30 +14,37 @@ type Gengo struct {
 	to        time.Time
 }
 
+// MEIJI 明治を表す Gengo を取得する
 func MEIJI() *Gengo {
 	return meiji
 }
 
+// TAISHO 大正を表す Gengo を取得する
 func TAISHO() *Gengo {
 	return taisho
 }
 
+// SHOWA 昭和を表す Gengo を取得する
 func SHOWA() *Gengo {
 	return showa
 }
 
+// HEISEI 平成を表す Gengo を取得する
 func HEISEI() *Gengo {
 	return heisei
 }
 
+// REIWA 令和を表す Gengo を取得する
 func REIWA() *Gengo {
 	return reiwa
 }
 
+// Now 現在日付の Gengo を取得する
 func Now() (*Gengo, error) {
 	return Date(time.Now())
 }
 
+// Date datetime に対応する Gengo を取得する
 func Date(datetime time.Time) (*Gengo, error) {
 	for _, g := range values {
 		if g.Between(datetime) {
@@ -46,29 +54,38 @@ func Date(datetime time.Time) (*Gengo, error) {
 	return nil, errors.New("range error. must specify date: greater than 1868/01/24")
 }
 
+// Name 元号のローマ字表現
 func (g *Gengo) Name() string {
 	return g.name
 }
 
+// ShortName 元号の短縮形のローマ字表現
 func (g *Gengo) ShortName() string {
 	return g.shortName
 }
 
+// KanjiName 元号の漢字表現
 func (g *Gengo) KanjiName() string {
 	return g.kanjiName
 }
+
+// Between 元号の範囲かどうか判定する。
+// t が元号の範囲内のとき true を返す。
 func (g *Gengo) Between(t time.Time) bool {
 	return t.After(g.from) && t.Before(g.to)
 }
 
+// Convert 西暦を和暦にする
 func (g *Gengo) Convert(t time.Time) int {
 	return t.Year() - g.from.Year() + 1
 }
 
+// ToAC 和暦を西暦にする
 func (g *Gengo) ToAC(year int) int {
 	return g.from.Year() + year - 1
 }
 
+// Values Gengo の配列を返す
 func Values() []*Gengo {
 	return values
 }

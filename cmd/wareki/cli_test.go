@@ -11,8 +11,8 @@ func TestRun_versionFlag(t *testing.T) {
 	params := []struct {
 		argstr string
 	}{
-		{argstr: AppName + " --version"},
-		{argstr: AppName + " -v"},
+		{argstr: appName + " --version"},
+		{argstr: appName + " -v"},
 	}
 
 	for _, p := range params {
@@ -21,12 +21,12 @@ func TestRun_versionFlag(t *testing.T) {
 
 		args := strings.Split(p.argstr, " ")
 		status := clo.Run(args)
-		if status != ExitCodeOK {
-			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, ExitCodeOK)
+		if status != exitCodeOK {
+			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
 
 		actual := outStream.String()
-		expect := fmt.Sprintf(AppName+" version %s", Version)
+		expect := fmt.Sprintf(appName+" version %s", version)
 		if strings.Contains(actual, expect) == false {
 			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, expect)
 		}
@@ -38,16 +38,16 @@ func TestRun_warekiToACFlag(t *testing.T) {
 		argstr string
 		expect string
 	}{
-		{argstr: AppName + " --meiji 1", expect: "1868"},
-		{argstr: AppName + " -M 1", expect: "1868"},
-		{argstr: AppName + " --taisho 1", expect: "1912"},
-		{argstr: AppName + " -T 1", expect: "1912"},
-		{argstr: AppName + " --showa 1", expect: "1926"},
-		{argstr: AppName + " -S 1", expect: "1926"},
-		{argstr: AppName + " --heisei 1", expect: "1989"},
-		{argstr: AppName + " -H 1", expect: "1989"},
-		{argstr: AppName + " --reiwa 1", expect: "2019"},
-		{argstr: AppName + " -R 1", expect: "2019"},
+		{argstr: appName + " --meiji 1", expect: "1868"},
+		{argstr: appName + " -M 1", expect: "1868"},
+		{argstr: appName + " --taisho 1", expect: "1912"},
+		{argstr: appName + " -T 1", expect: "1912"},
+		{argstr: appName + " --showa 1", expect: "1926"},
+		{argstr: appName + " -S 1", expect: "1926"},
+		{argstr: appName + " --heisei 1", expect: "1989"},
+		{argstr: appName + " -H 1", expect: "1989"},
+		{argstr: appName + " --reiwa 1", expect: "2019"},
+		{argstr: appName + " -R 1", expect: "2019"},
 	}
 
 	for _, p := range params {
@@ -56,8 +56,8 @@ func TestRun_warekiToACFlag(t *testing.T) {
 
 		args := strings.Split(p.argstr, " ")
 		status := clo.Run(args)
-		if status != ExitCodeOK {
-			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, ExitCodeOK)
+		if status != exitCodeOK {
+			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
 
 		actual := outStream.String()
@@ -73,13 +73,13 @@ func TestRun_acToWareki(t *testing.T) {
 		argstr string
 		expect string
 	}{
-		{argstr: AppName + " 1868/01/25", expect: "M1"},
-		{argstr: AppName + " 1912/07/30", expect: "T1"},
-		{argstr: AppName + " 1926/12/25", expect: "S1"},
-		{argstr: AppName + " 1989/01/08", expect: "H1"},
-		{argstr: AppName + " 2019/05/01", expect: "R1"},
-		{argstr: AppName + " 1989/01", expect: "S64"},
-		{argstr: AppName + " 1989", expect: "S64"},
+		{argstr: appName + " 1868/01/25", expect: "M1"},
+		{argstr: appName + " 1912/07/30", expect: "T1"},
+		{argstr: appName + " 1926/12/25", expect: "S1"},
+		{argstr: appName + " 1989/01/08", expect: "H1"},
+		{argstr: appName + " 2019/05/01", expect: "R1"},
+		{argstr: appName + " 1989/01", expect: "S64"},
+		{argstr: appName + " 1989", expect: "S64"},
 	}
 
 	for _, p := range params {
@@ -88,8 +88,8 @@ func TestRun_acToWareki(t *testing.T) {
 
 		args := strings.Split(p.argstr, " ")
 		status := clo.Run(args)
-		if status != ExitCodeOK {
-			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, ExitCodeOK)
+		if status != exitCodeOK {
+			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
 
 		actual := outStream.String()
@@ -105,9 +105,9 @@ func TestRun_err(t *testing.T) {
 		argstr string
 		expect string
 	}{
-		{argstr: AppName + " 1989-01-01",
+		{argstr: appName + " 1989-01-01",
 			expect: "invalid date format. must specify date: e.g.) 2018 or 2018/01 or 2018/01/01"},
-		{argstr: AppName + " 1868/01/24",
+		{argstr: appName + " 1868/01/24",
 			expect: "range error. must specify date: greater than 1868/01/24"},
 	}
 
@@ -117,8 +117,8 @@ func TestRun_err(t *testing.T) {
 
 		args := strings.Split(p.argstr, " ")
 		status := clo.Run(args)
-		if status != ExitCodeError {
-			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, ExitCodeError)
+		if status != exitCodeError {
+			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeError)
 		}
 
 		actual := errStream.String()
