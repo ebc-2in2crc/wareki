@@ -42,11 +42,12 @@ func TestBetween(t *testing.T) {
 
 	if meiji.Between(now) == true ||
 		taisho.Between(now) == true ||
-		showa.Between(now) == true {
+		showa.Between(now) == true ||
+		heisei.Between(now) == true {
 		t.Errorf("showa.Between(%v) = true; want false", now)
 	}
 
-	if heisei.Between(now) == false {
+	if reiwa.Between(now) == false {
 		t.Errorf("heisei.Between(%v) = false; want true", now)
 	}
 }
@@ -102,7 +103,7 @@ func TestDate(t *testing.T) {
 
 func TestNow(t *testing.T) {
 	actual, _ := Now()
-	expect := heisei
+	expect := reiwa
 
 	if actual != expect {
 		t.Errorf("Now() = %+v; want %+v", actual, expect)
