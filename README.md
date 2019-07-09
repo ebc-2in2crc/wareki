@@ -1,5 +1,7 @@
 # wareki
 
+[![GoDoc](https://godoc.org/github.com/ebc-2in2crc/wareki?status.svg)](https://godoc.org/github.com/ebc-2in2crc/wareki)
+
 wareki は西暦と和暦を変換するプログラムです。
 
 ## Description
