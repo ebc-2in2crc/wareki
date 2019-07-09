@@ -2,6 +2,7 @@
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![GoDoc](https://godoc.org/github.com/ebc-2in2crc/wareki?status.svg)](https://godoc.org/github.com/ebc-2in2crc/wareki)
+[![Version](https://img.shields.io/github/release/ebc-2in2crc/wareki.svg?label=version)](https://img.shields.io/github/release/ebc-2in2crc/wareki.svg?label=version)
 
 wareki は西暦と和暦を変換するプログラムです。
 
