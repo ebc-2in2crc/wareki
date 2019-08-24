@@ -8,19 +8,19 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/ebc-2in2crc/wareki)](https://goreportcard.com/report/github.com/ebc-2in2crc/wareki)
 [![Version](https://img.shields.io/github/release/ebc-2in2crc/wareki.svg?label=version)](https://img.shields.io/github/release/ebc-2in2crc/wareki.svg?label=version)
 
-`wareki` converts between Japanese calendar and western calendar.
+wareki は西暦と和暦を変換するプログラムです。
 
 ## Description
 
-`wareki` converts between Japanese calendar and western calendar.
+wareki は西暦と和暦を変換します。
 
-When converting from the Western calendar to the Japanese calendar, the era of the Japanese calendar is automatically determined according to the Western calendar.
-The year of Western calendar can be omitted and the default value is the system date.
+西暦から和暦への変換は、和暦の元号は西暦に応じて自動的に決まります. たとえば、2019/05/01 を指定すると R1 (令和1年) に、2019/04/30 を指定すると H31 (平成31年) になります。
+西暦は省略でき、デフォルト値はシステム日付になります。
 
-By default, the Japanese era is output with one uppercase letter (e.g. `R`) but can also be output with kanji (e.g. `令和`)
-You can also convert from Japanese calendar to Western calendar by specifying an option.
+デフォルトでは、元号は英大文字1文字で出力しますが (e.g. R) 漢字で出力することもできます (e.g. 令和)
+また、オプションで和暦から西暦に変換することもできます。
 
-`wareki` support Reiwa, Heisei, Taisho, Meiji.
+令和・平成・昭和・大正・明治に対応しています。
 
 ## Usage
 
