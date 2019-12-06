@@ -92,7 +92,7 @@ func Values() []*Gengo {
 
 var values = []*Gengo{meiji, taisho, showa, heisei, reiwa}
 
-var jst, _ = time.LoadLocation("Asia/Tokyo")
+var jst = time.FixedZone("JST", 9*60*60)
 
 var (
 	meiji = &Gengo{
