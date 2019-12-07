@@ -59,7 +59,7 @@ $ wareki --help
 # ...
 ```
 
-Or, you can use Docker.
+Docker を使うこともできます。
 
 ```sh
 $ date "+%Y/%m/%d"
@@ -79,18 +79,18 @@ $ go get -u github.com/ebc-2in2crc/wareki/...
 
 ### User
 
-Download from the following url.
+次の URL からダウンロードします。
 
 - [https://github.com/ebc-2in2crc/wareki/releases](https://github.com/ebc-2in2crc/wareki/releases)
 
-Or, you can use Homebrew (Only macOS).
+Homebrew を使うこともできます (Mad のみ)
 
 ```sh
 $ brew tap ebc-2in2crc/wareki
 $ brew install wareki
 ```
 
-Or, you can use Docker.
+Docker を使うこともできます。
 
 ```sh
 $  docker pull ebc2in2crc/wareki
