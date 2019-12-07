@@ -59,6 +59,16 @@ $ wareki --help
 # ...
 ```
 
+Or, you can use Docker.
+
+```sh
+$ date "+%Y/%m/%d"
+2019/05/01
+
+$ docker container run --rm ebc2in2crc/wareki
+R1
+```
+
 ## Installation
 
 ### Developer
@@ -78,6 +88,12 @@ Or, you can use Homebrew (Only macOS).
 ```sh
 $ brew tap ebc-2in2crc/wareki
 $ brew install wareki
+```
+
+Or, you can use Docker.
+
+```sh
+$  docker pull ebc2in2crc/wareki
 ```
 
 ## Contribution
