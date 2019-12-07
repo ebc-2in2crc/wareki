@@ -5,7 +5,7 @@ import (
 )
 
 const appName = "wareki"
-const version = "1.0.0"
+const version = "1.0.1"
 
 func main() {
 	cli := &CLO{outStream: os.Stdout, errStream: os.Stderr}
