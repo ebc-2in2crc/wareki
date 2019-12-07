@@ -67,6 +67,9 @@ $ date "+%Y/%m/%d"
 
 $ docker container run --rm ebc2in2crc/wareki
 R1
+
+$ docker container run --rm ebc2in2crc/wareki --kanji
+令和1
 ```
 
 ## Installation
