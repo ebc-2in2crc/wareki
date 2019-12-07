@@ -96,7 +96,7 @@ $ brew install wareki
 Docker を使うこともできます。
 
 ```sh
-$  docker pull ebc2in2crc/wareki
+$ docker pull ebc2in2crc/wareki
 ```
 
 ## Contribution
