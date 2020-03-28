@@ -86,7 +86,7 @@ $ go get -u github.com/ebc-2in2crc/wareki/...
 
 - [https://github.com/ebc-2in2crc/wareki/releases](https://github.com/ebc-2in2crc/wareki/releases)
 
-Homebrew を使うこともできます (Mad のみ)
+Homebrew を使うこともできます (Mac のみ)
 
 ```sh
 $ brew tap ebc-2in2crc/wareki
