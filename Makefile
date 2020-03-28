@@ -80,6 +80,11 @@ clean:
 	$(GOCLEAN)
 	rm -rf $(BUILDDIR)
 
+.PHONY: dockerfile
+## Update Dockerfile
+dockerfile:
+	sed -e "s/<VERSION>/$(VERSION)/g" Dockerfile.base > Dockerfile
+
 .PHONY: help
 ## Show help
 help:
