@@ -109,7 +109,7 @@ $ docker pull ebc2in2crc/wareki
 6. Run gofmt -s
 7. Create new Pull Request
 
-## Licence
+## License
 
 [MIT](https://github.com/ebc-2in2crc/wareki/blob/master/LICENSE)
 
