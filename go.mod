@@ -1,6 +1,6 @@
 module github.com/ebc-2in2crc/wareki
 
-go 1.12
+go 1.15
 
 require (
 	github.com/Songmu/make2help v0.1.0 // indirect
