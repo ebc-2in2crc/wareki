@@ -1,4 +1,5 @@
-GOCMD := go
+GOCMD := env GO111MODULE=on go
+GOMOD := $(GOCMD) mod
 GOBUILD := $(GOCMD) build
 GOINSTALL := $(GOCMD) install
 GOCLEAN := $(GOCMD) clean
@@ -23,12 +24,20 @@ export GO111MODULE=on
 .PHONY: deps
 ## Install dependencies
 deps:
-	GO111MODULE=off $(GOGET) golang.org/x/tools/cmd/goimports \
-	golang.org/x/lint/golint \
-	github.com/urfave/cli \
-	github.com/Songmu/make2help/cmd/make2help \
-	github.com/mitchellh/gox \
-	github.com/tcnksm/ghr
+	$(GOMOD) download
+
+.PHONY: devel-deps
+## Install dependencies for develop
+devel-deps:
+	sh -c '\
+	tmpdir=$$(mktemp -d); \
+	cd $$tmpdir; \
+	$(GOGET) golang.org/x/tools/cmd/goimports \
+		golang.org/x/lint/golint \
+		github.com/Songmu/make2help/cmd/make2help \
+		github.com/mitchellh/gox \
+		github.com/tcnksm/ghr; \
+	rm -rf $$tmpdir'
 
 .PHONY: build
 ## Build binaries
