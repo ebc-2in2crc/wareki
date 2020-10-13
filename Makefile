@@ -28,7 +28,7 @@ deps:
 
 .PHONY: devel-deps
 ## Install dependencies for develop
-devel-deps:
+devel-deps: deps
 	sh -c '\
 	tmpdir=$$(mktemp -d); \
 	cd $$tmpdir; \
@@ -76,13 +76,13 @@ test: deps
 
 .PHONY: lint
 ## Lint
-lint: deps
+lint: devel-deps
 	go vet ./...
 	golint -set_exit_status ./...
 
 .PHONY: fmt
 ## Format source codes
-fmt: deps
+fmt: devel-deps
 	find . -name "*.go" -not -path "./vendor/*" | xargs goimports -w
 
 .PHONY: clean
