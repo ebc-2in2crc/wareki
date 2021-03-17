@@ -40,7 +40,7 @@ devel-deps: deps
 .PHONY: build
 ## Build binaries
 build: deps
-	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINDIR)/$(NAME)
+	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINDIR)/$(NAME) ./cmd/$(NAME)
 
 .PHONY: cross-build
 ## Cross build binaries
