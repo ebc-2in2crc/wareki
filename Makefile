@@ -14,7 +14,7 @@ DISTDIR := $(BUILDDIR)/dist
 
 VERSION := $(shell git describe --tags --abbrev=0)
 LDFLAGS := -X 'main.version=$(VERSION)'
-GOXOSARCH := "darwin/amd64 windows/386 windows/amd64 linux/386 linux/amd64"
+GOXOSARCH := "darwin/amd64 darwin/arm64 windows/386 windows/amd64 linux/386 linux/amd64"
 GOXOUTPUT := "$(PKGDIR)/$(NAME)_{{.OS}}_{{.Arch}}/{{.Dir}}"
 
 export GO111MODULE=on
