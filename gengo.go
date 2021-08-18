@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Gengo 日本の元号を表す
+// Gengo represents Japanese era.
 type Gengo struct {
 	name      string
 	shortName string
@@ -14,37 +14,37 @@ type Gengo struct {
 	to        time.Time
 }
 
-// MEIJI 明治を表す Gengo を取得する
+// MEIJI returns a Gengo that represents MEIJI era.
 func MEIJI() *Gengo {
 	return meiji
 }
 
-// TAISHO 大正を表す Gengo を取得する
+// TAISHO returns a Gengo that represents TAISHO era.
 func TAISHO() *Gengo {
 	return taisho
 }
 
-// SHOWA 昭和を表す Gengo を取得する
+// SHOWA returns a Gengo that represents SHOWA era.
 func SHOWA() *Gengo {
 	return showa
 }
 
-// HEISEI 平成を表す Gengo を取得する
+// HEISEI returns a Gengo that represents HEISEI era.
 func HEISEI() *Gengo {
 	return heisei
 }
 
-// REIWA 令和を表す Gengo を取得する
+// REIWA returns a Gengo that represents REIWA era.
 func REIWA() *Gengo {
 	return reiwa
 }
 
-// Now 現在日付の Gengo を取得する
+// Now returns a current Gengo.
 func Now() (*Gengo, error) {
 	return Date(time.Now())
 }
 
-// Date datetime に対応する Gengo を取得する
+// Date returns a Gengo that always uses the given time.Time.
 func Date(datetime time.Time) (*Gengo, error) {
 	for _, g := range values {
 		if g.Between(datetime) {
@@ -54,38 +54,37 @@ func Date(datetime time.Time) (*Gengo, error) {
 	return nil, errors.New("range error. must specify date: greater than 1868/01/24")
 }
 
-// Name 元号のローマ字表現
+// Name returns a romanized representation of the Gengo.
 func (g *Gengo) Name() string {
 	return g.name
 }
 
-// ShortName 元号の短縮形のローマ字表現
+// ShortName returns a short romanized representation of the Gengo.
 func (g *Gengo) ShortName() string {
 	return g.shortName
 }
 
-// KanjiName 元号の漢字表現
+// KanjiName returns a kanji representation of the Gengo.
 func (g *Gengo) KanjiName() string {
 	return g.kanjiName
 }
 
-// Between 元号の範囲かどうか判定する。
-// t が元号の範囲内のとき true を返す。
+// Between reports whether t is between Gengo.
 func (g *Gengo) Between(t time.Time) bool {
 	return t.After(g.from) && t.Before(g.to)
 }
 
-// Convert 西暦を和暦にする
+// Convert converts western calendar into Japanese calendar.
 func (g *Gengo) Convert(t time.Time) int {
 	return t.Year() - g.from.Year() + 1
 }
 
-// ToAC 和暦を西暦にする
+// ToAC converts Japanese calendar into western calendar.
 func (g *Gengo) ToAC(year int) int {
 	return g.from.Year() + year - 1
 }
 
-// Values Gengo の配列を返す
+// Values returns an array That includes all Gengo.
 func Values() []*Gengo {
 	return values
 }
