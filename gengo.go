@@ -45,9 +45,9 @@ func Now() (*Gengo, error) {
 }
 
 // Date returns a Gengo that always uses the given time.Time.
-func Date(datetime time.Time) (*Gengo, error) {
+func Date(t time.Time) (*Gengo, error) {
 	for _, g := range values {
-		if g.Between(datetime) {
+		if g.Between(t) {
 			return g, nil
 		}
 	}
