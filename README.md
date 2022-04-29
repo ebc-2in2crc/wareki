@@ -76,6 +76,14 @@ $ docker container run --rm ebc2in2crc/wareki --kanji
 
 ### Developer
 
+Go 1.16 or later.
+
+```
+$ go install github.com/ebc-2in2crc/wareki/cmd/wareki@latest
+```
+
+Go 1.15.
+
 ```
 $ go get -u github.com/ebc-2in2crc/wareki/...
 ```
