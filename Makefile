@@ -4,7 +4,6 @@ GOBUILD := $(GOCMD) build
 GOINSTALL := $(GOCMD) install
 GOCLEAN := $(GOCMD) clean
 GOTEST := $(GOCMD) test
-GOGET := $(GOCMD) get
 NAME := wareki
 CURRENT := $(shell pwd)
 BUILDDIR := ./build
@@ -27,15 +26,11 @@ deps:
 .PHONY: devel-deps
 ## Install dependencies for develop
 devel-deps: deps
-	sh -c '\
-	tmpdir=$$(mktemp -d); \
-	cd $$tmpdir; \
-	$(GOGET) golang.org/x/tools/cmd/goimports \
-		golang.org/x/lint/golint \
-		github.com/Songmu/make2help/cmd/make2help \
-		github.com/mitchellh/gox \
-		github.com/tcnksm/ghr; \
-	rm -rf $$tmpdir'
+	$(GOINSTALL) golang.org/x/tools/cmd/goimports@latest
+	$(GOINSTALL) golang.org/x/lint/golint@latest
+	$(GOINSTALL) github.com/Songmu/make2help/cmd/make2help@latest
+	$(GOINSTALL) github.com/mitchellh/gox@latest
+	$(GOINSTALL) github.com/tcnksm/ghr@latest
 
 .PHONY: build
 ## Build binaries
