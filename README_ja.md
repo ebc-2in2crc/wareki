@@ -105,6 +105,8 @@ Docker を使うこともできます。
 
 ```sh
 $ docker pull ebc2in2crc/wareki
+$ docker container run ebc2in2crc/wareki
+R4
 ```
 
 ## Contribution
