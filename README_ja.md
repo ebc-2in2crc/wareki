@@ -3,6 +3,7 @@
 # wareki
 
 [![Build Status](https://travis-ci.com/ebc-2in2crc/wareki.svg?branch=master)](https://travis-ci.com/ebc-2in2crc/wareki)
+![CI](https://github.com/ebc-2in2crc/wareki/actions/workflows/pr.yml/badge.svg)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![GoDoc](https://godoc.org/github.com/ebc-2in2crc/wareki?status.svg)](https://godoc.org/github.com/ebc-2in2crc/wareki)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ebc-2in2crc/wareki)](https://goreportcard.com/report/github.com/ebc-2in2crc/wareki)
