@@ -65,7 +65,7 @@ install:
 .PHONY: test
 ## Run tests
 test: deps
-	$(GOTEST) -v ./...
+	$(GOTEST) -race -v ./...
 
 .PHONY: lint
 ## Lint
