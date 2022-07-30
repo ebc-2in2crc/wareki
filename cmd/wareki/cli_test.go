@@ -93,9 +93,8 @@ func TestRun_acToWareki(t *testing.T) {
 		}
 
 		actual := outStream.String()
-		expect := fmt.Sprintf("%s", p.expect)
-		if strings.Contains(actual, expect) == false {
-			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, expect)
+		if strings.Contains(actual, p.expect) == false {
+			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, p.expect)
 		}
 	}
 }
@@ -122,9 +121,8 @@ func TestRun_err(t *testing.T) {
 		}
 
 		actual := errStream.String()
-		expect := fmt.Sprintf("%s", p.expect)
-		if strings.Contains(actual, expect) == false {
-			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, expect)
+		if strings.Contains(actual, p.expect) == false {
+			t.Errorf("Run(%s): Output = %q; want %q", p.argstr, actual, p.expect)
 		}
 	}
 }
