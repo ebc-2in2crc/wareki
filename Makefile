@@ -28,7 +28,7 @@ deps:
 ## Install dependencies for develop
 devel-deps: deps
 	$(GOINSTALL) golang.org/x/tools/cmd/goimports@latest
-	$(GOINSTALL) golang.org/x/lint/golint@latest
+	$(GOINSTALL) github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	$(GOINSTALL) github.com/Songmu/make2help/cmd/make2help@latest
 	$(GOINSTALL) github.com/mitchellh/gox@latest
 	$(GOINSTALL) github.com/tcnksm/ghr@latest
@@ -71,8 +71,7 @@ test: deps
 .PHONY: lint
 ## Lint
 lint: devel-deps
-	go vet ./...
-	golint -set_exit_status ./...
+	golangci-lint run ./...
 
 .PHONY: fmt
 ## Format source codes
