@@ -116,15 +116,15 @@ OPTIONS:
 
 func action() func(c *cli.Context) error {
 	return func(c *cli.Context) error {
-		if c.Bool("h") == true {
-			cli.ShowAppHelp(c)
+		if c.Bool("h") {
+			_ = cli.ShowAppHelp(c)
 			return nil
 		}
-		if c.Bool("v") == true {
+		if c.Bool("v") {
 			cli.ShowVersion(c)
 			return nil
 		}
-		if mustWarekiToAC(c) == true {
+		if mustWarekiToAC(c) {
 			warekiToAC(c)
 			return nil
 		}
@@ -186,7 +186,7 @@ func acToWareki(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	if match == false {
+	if !match {
 		return errors.New("invalid date format. must specify date: e.g.) 2018 or 2018/01 or 2018/01/01")
 	}
 
