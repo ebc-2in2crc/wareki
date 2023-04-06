@@ -156,23 +156,10 @@ func warekiToAC(c *cli.Context) {
 }
 
 func acToWareki(c *cli.Context) error {
-	f := func(t time.Time, kanji bool) (string, error) {
-		g, err := wareki.Date(t)
-		if err != nil {
-			return "", err
-		}
-
-		year := g.Convert(t)
-		if kanji {
-			return g.KanjiName() + strconv.Itoa(year), nil
-		}
-		return g.ShortName() + strconv.Itoa(year), nil
-	}
-
 	// 西暦から和暦に変換
 	// 引数がないときはシステム日付を和暦に変換
 	if c.NArg() == 0 {
-		str, err := f(time.Now(), c.Bool("K"))
+		str, err := _acToWareki(time.Now(), c.Bool("K"))
 		if err != nil {
 			return err
 		}
@@ -205,10 +192,23 @@ func acToWareki(c *cli.Context) error {
 		return err
 	}
 
-	str, err := f(t, c.Bool("K"))
+	str, err := _acToWareki(t, c.Bool("K"))
 	if err != nil {
 		return err
 	}
 	fmt.Fprintf(clo.outStream, "%s\n", str)
 	return nil
+}
+
+func _acToWareki(t time.Time, kanji bool) (string, error) {
+	g, err := wareki.Date(t)
+	if err != nil {
+		return "", err
+	}
+
+	year := g.Convert(t)
+	if kanji {
+		return g.KanjiName() + strconv.Itoa(year), nil
+	}
+	return g.ShortName() + strconv.Itoa(year), nil
 }
