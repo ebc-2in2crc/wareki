@@ -99,6 +99,24 @@ func TestRun_acToWareki(t *testing.T) {
 	}
 }
 
+func TestRun_acFromStdInputToWareki(t *testing.T) {
+	inputStream := bytes.NewBufferString("1868/01/25\n1989/01/08")
+	outStream, errStream := new(bytes.Buffer), new(bytes.Buffer)
+	clo := &CLO{inputStream: inputStream, outStream: outStream, errStream: errStream}
+
+	args := []string{appName, "-"}
+	status := clo.Run(args)
+	if status != exitCodeOK {
+		t.Errorf("Run(%s): ExitStatus = %d; want %d", args, status, exitCodeOK)
+	}
+
+	expect := "M1\nH1"
+	actual := outStream.String()
+	if strings.Contains(actual, expect) == false {
+		t.Errorf("Run(%s): Output = %q; want %q", args, actual, expect)
+	}
+}
+
 func TestRun_err(t *testing.T) {
 	params := []struct {
 		argstr string

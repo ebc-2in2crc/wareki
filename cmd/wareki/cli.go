@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"io"
@@ -19,6 +20,7 @@ const (
 
 // CLO 標準入出力を入れ替えるための構造体
 type CLO struct {
+	inputStream          io.Reader
 	outStream, errStream io.Writer
 }
 
@@ -156,23 +158,10 @@ func warekiToAC(c *cli.Context) {
 }
 
 func acToWareki(c *cli.Context) error {
-	f := func(t time.Time, kanji bool) (string, error) {
-		g, err := wareki.Date(t)
-		if err != nil {
-			return "", err
-		}
-
-		year := g.Convert(t)
-		if kanji {
-			return g.KanjiName() + strconv.Itoa(year), nil
-		}
-		return g.ShortName() + strconv.Itoa(year), nil
-	}
-
 	// 西暦から和暦に変換
 	// 引数がないときはシステム日付を和暦に変換
 	if c.NArg() == 0 {
-		str, err := f(time.Now(), c.Bool("K"))
+		str, err := _acToWareki(time.Now(), c.Bool("K"))
 		if err != nil {
 			return err
 		}
@@ -182,6 +171,35 @@ func acToWareki(c *cli.Context) error {
 
 	// 引数があるときは日付にパースして和暦に変換
 	s := c.Args()[0]
+	if s != "-" {
+		return printWareki(c, s)
+	}
+
+	scanner := bufio.NewScanner(clo.inputStream)
+	for scanner.Scan() {
+		text := scanner.Text()
+		if err := printWareki(c, text); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func _acToWareki(t time.Time, kanji bool) (string, error) {
+	g, err := wareki.Date(t)
+	if err != nil {
+		return "", err
+	}
+
+	year := g.Convert(t)
+	if kanji {
+		return g.KanjiName() + strconv.Itoa(year), nil
+	}
+	return g.ShortName() + strconv.Itoa(year), nil
+}
+
+func printWareki(c *cli.Context, s string) error {
 	match, err := regexp.MatchString("^\\d{4}(/\\d{2}(/\\d{2})?)?$", s)
 	if err != nil {
 		return err
@@ -205,10 +223,11 @@ func acToWareki(c *cli.Context) error {
 		return err
 	}
 
-	str, err := f(t, c.Bool("K"))
+	str, err := _acToWareki(t, c.Bool("K"))
 	if err != nil {
 		return err
 	}
+
 	fmt.Fprintf(clo.outStream, "%s\n", str)
 	return nil
 }
