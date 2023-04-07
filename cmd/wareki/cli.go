@@ -52,11 +52,11 @@ func (c *CLO) Run(args []string) int {
 }
 
 func description() string {
-	return `AC に指定した西暦を和暦に変換します.
+	return `AD に指定した西暦を和暦に変換します.
   和暦の元号は西暦に応じて自動的に決まります. たとえば, 1989/01/08 を指
   定すると H1 (平成1年) に, 1989/01/07 を指定すると S64 (昭和64年) に
   なります.
-  AC は省略でき, デフォルト値はシステム日付になります.
+  AD は省略でき, デフォルト値はシステム日付になります.
   デフォルトでは, 元号は英大文字1文字で出力しますが (e.g. H) --kanji オ
   プションを指定することにより漢字で出力することもできます (e.g. 平成)
   また, --meiji, --taisho, --showa, --heisei, --reiwa オプションによ
@@ -105,7 +105,7 @@ func appHelpTemplate() string {
   {{.Name}} - {{.Usage}}
 	
 USAGE:
-  {{.Name}} [options] [AC]
+  {{.Name}} [options] [AD]
 	
 DESCRIPTION:
   {{.Description}}
@@ -126,15 +126,15 @@ func action() func(c *cli.Context) error {
 			cli.ShowVersion(c)
 			return nil
 		}
-		if mustWarekiToAC(c) {
-			warekiToAC(c)
+		if mustWarekiToAD(c) {
+			warekiToAD(c)
 			return nil
 		}
 		return acToWareki(c)
 	}
 }
 
-func mustWarekiToAC(c *cli.Context) bool {
+func mustWarekiToAD(c *cli.Context) bool {
 	return c.Int("M") != 0 ||
 		c.Int("T") != 0 ||
 		c.Int("S") != 0 ||
@@ -142,18 +142,18 @@ func mustWarekiToAC(c *cli.Context) bool {
 		c.Int("R") != 0
 }
 
-func warekiToAC(c *cli.Context) {
+func warekiToAD(c *cli.Context) {
 	switch {
 	case c.Int("M") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAC(c.Int("M")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAD(c.Int("M")))
 	case c.Int("T") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAC(c.Int("T")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAD(c.Int("T")))
 	case c.Int("S") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAC(c.Int("S")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAD(c.Int("S")))
 	case c.Int("H") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAC(c.Int("H")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAD(c.Int("H")))
 	case c.Int("R") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAC(c.Int("R")))
+		fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAD(c.Int("R")))
 	}
 }
 

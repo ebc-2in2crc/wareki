@@ -33,7 +33,7 @@ func TestRun_versionFlag(t *testing.T) {
 	}
 }
 
-func TestRun_warekiToACFlag(t *testing.T) {
+func TestRun_warekiToADFlag(t *testing.T) {
 	params := []struct {
 		argstr string
 		expect string
