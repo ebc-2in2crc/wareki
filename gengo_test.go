@@ -140,7 +140,7 @@ func TestConvert(t *testing.T) {
 	}
 }
 
-func TestToAC(t *testing.T) {
+func TestToAD(t *testing.T) {
 	params := []struct {
 		g      *Gengo
 		year   int
@@ -160,11 +160,11 @@ func TestToAC(t *testing.T) {
 
 	for _, p := range params {
 		g := p.g
-		actual := g.ToAC(p.year)
+		actual := g.ToAD(p.year)
 		expect := p.expect
 
 		if actual != expect {
-			t.Errorf("ToAC(%d) = %d; want %d", p.year, actual, expect)
+			t.Errorf("ToAD(%d) = %d; want %d", p.year, actual, expect)
 		}
 	}
 }

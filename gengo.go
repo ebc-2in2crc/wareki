@@ -79,8 +79,8 @@ func (g *Gengo) Convert(t time.Time) int {
 	return t.Year() - g.from.Year() + 1
 }
 
-// ToAC converts Japanese calendar into western calendar.
-func (g *Gengo) ToAC(year int) int {
+// ToAD converts Japanese calendar into western calendar.
+func (g *Gengo) ToAD(year int) int {
 	return g.from.Year() + year - 1
 }
 
