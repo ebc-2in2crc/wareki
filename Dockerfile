@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.17.3
 
 LABEL com.github.ebc-2in2crc.wareki.image=https://github.com/ebc-2in2crc/wareki.git
 
