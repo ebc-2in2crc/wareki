@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"strings"
 	"testing"
@@ -20,7 +21,7 @@ func TestRun_versionFlag(t *testing.T) {
 		clo := &CLO{outStream: outStream, errStream: errStream}
 
 		args := strings.Split(p.argstr, " ")
-		status := clo.Run(args)
+		status := clo.Run(context.Background(), args)
 		if status != exitCodeOK {
 			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
@@ -55,7 +56,7 @@ func TestRun_warekiToADFlag(t *testing.T) {
 		clo := &CLO{outStream: outStream, errStream: errStream}
 
 		args := strings.Split(p.argstr, " ")
-		status := clo.Run(args)
+		status := clo.Run(context.Background(), args)
 		if status != exitCodeOK {
 			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
@@ -87,7 +88,7 @@ func TestRun_acToWareki(t *testing.T) {
 		clo := &CLO{outStream: outStream, errStream: errStream}
 
 		args := strings.Split(p.argstr, " ")
-		status := clo.Run(args)
+		status := clo.Run(context.Background(), args)
 		if status != exitCodeOK {
 			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeOK)
 		}
@@ -105,7 +106,7 @@ func TestRun_acFromStdInputToWareki(t *testing.T) {
 	clo := &CLO{inputStream: inputStream, outStream: outStream, errStream: errStream}
 
 	args := []string{appName, "-"}
-	status := clo.Run(args)
+	status := clo.Run(context.Background(), args)
 	if status != exitCodeOK {
 		t.Errorf("Run(%s): ExitStatus = %d; want %d", args, status, exitCodeOK)
 	}
@@ -133,7 +134,7 @@ func TestRun_err(t *testing.T) {
 		clo := &CLO{outStream: outStream, errStream: errStream}
 
 		args := strings.Split(p.argstr, " ")
-		status := clo.Run(args)
+		status := clo.Run(context.Background(), args)
 		if status != exitCodeError {
 			t.Errorf("Run(%s): ExitStatus = %d; want %d", p.argstr, status, exitCodeError)
 		}
