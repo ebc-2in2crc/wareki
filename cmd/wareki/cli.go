@@ -47,7 +47,7 @@ func (c *CLO) Run(ctx context.Context, args []string) int {
 
 	err := app.Run(ctx, args)
 	if err != nil {
-		fmt.Fprintf(clo.errStream, "%v\n", err)
+		_, _ = fmt.Fprintf(clo.errStream, "%v\n", err)
 		return exitCodeError
 	}
 	return exitCodeOK
@@ -136,8 +136,7 @@ func action() cli.ActionFunc {
 			return nil
 		}
 		if mustWarekiToAD(cmd) {
-			warekiToAD(cmd)
-			return nil
+			return warekiToAD(cmd)
 		}
 		return acToWareki(cmd)
 	}
@@ -151,19 +150,25 @@ func mustWarekiToAD(cmd *cli.Command) bool {
 		cmd.Int("reiwa") != 0
 }
 
-func warekiToAD(cmd *cli.Command) {
+func warekiToAD(cmd *cli.Command) error {
 	switch {
 	case cmd.Int("meiji") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAD(int(cmd.Int("meiji"))))
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAD(int(cmd.Int("meiji"))))
+		return err
 	case cmd.Int("taisho") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAD(int(cmd.Int("taisho"))))
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAD(int(cmd.Int("taisho"))))
+		return err
 	case cmd.Int("showa") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAD(int(cmd.Int("showa"))))
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAD(int(cmd.Int("showa"))))
+		return err
 	case cmd.Int("heisei") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAD(int(cmd.Int("heisei"))))
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAD(int(cmd.Int("heisei"))))
+		return err
 	case cmd.Int("reiwa") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAD(int(cmd.Int("reiwa"))))
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAD(int(cmd.Int("reiwa"))))
+		return err
 	}
+	return nil
 }
 
 func acToWareki(cmd *cli.Command) error {
@@ -174,8 +179,8 @@ func acToWareki(cmd *cli.Command) error {
 		if err != nil {
 			return err
 		}
-		fmt.Fprintf(clo.outStream, "%s\n", str)
-		return nil
+		_, err = fmt.Fprintf(clo.outStream, "%s\n", str)
+		return err
 	}
 
 	// 引数があるときは日付にパースして和暦に変換
@@ -237,6 +242,6 @@ func printWareki(cmd *cli.Command, s string) error {
 		return err
 	}
 
-	fmt.Fprintf(clo.outStream, "%s\n", str)
-	return nil
+	_, err = fmt.Fprintf(clo.outStream, "%s\n", str)
+	return err
 }
