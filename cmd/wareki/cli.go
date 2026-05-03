@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -10,7 +11,7 @@ import (
 	"time"
 
 	"github.com/ebc-2in2crc/wareki"
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v3"
 )
 
 const (
@@ -27,25 +28,26 @@ type CLO struct {
 var clo *CLO
 
 // Run エントリーポイント
-func (c *CLO) Run(args []string) int {
+func (c *CLO) Run(ctx context.Context, args []string) int {
 	clo = c
 
-	app := cli.NewApp()
-	app.Name = appName
-	app.Usage = "西暦を和暦に変換する"
-	app.Version = version
-	app.HideHelp = true
-	app.HideVersion = true
-	app.Description = description()
-	app.Flags = flags()
-	cli.AppHelpTemplate = appHelpTemplate()
-	app.Action = action()
-	app.Writer = c.outStream
-	app.ErrWriter = c.errStream
+	app := &cli.Command{
+		Name:               appName,
+		Usage:              "西暦を和暦に変換する",
+		Version:            version,
+		HideHelp:           true,
+		HideVersion:        true,
+		Description:        description(),
+		Flags:              flags(),
+		CustomHelpTemplate: appHelpTemplate(),
+		Action:             action(),
+		Writer:             c.outStream,
+		ErrWriter:          c.errStream,
+	}
 
-	err := app.Run(args)
+	err := app.Run(ctx, args)
 	if err != nil {
-		fmt.Fprintf(clo.errStream, "%v\n", err)
+		_, _ = fmt.Fprintf(clo.errStream, "%v\n", err)
 		return exitCodeError
 	}
 	return exitCodeOK
@@ -65,37 +67,45 @@ func description() string {
 
 func flags() []cli.Flag {
 	return []cli.Flag{
-		cli.IntFlag{
-			Name:  "meiji, M",
-			Usage: "明治から西暦に変換します",
+		&cli.IntFlag{
+			Name:    "meiji",
+			Aliases: []string{"M"},
+			Usage:   "明治から西暦に変換します",
 		},
-		cli.IntFlag{
-			Name:  "taisho, T",
-			Usage: "大正から西暦に変換します",
+		&cli.IntFlag{
+			Name:    "taisho",
+			Aliases: []string{"T"},
+			Usage:   "大正から西暦に変換します",
 		},
-		cli.IntFlag{
-			Name:  "showa, S",
-			Usage: "昭和から西暦に変換します",
+		&cli.IntFlag{
+			Name:    "showa",
+			Aliases: []string{"S"},
+			Usage:   "昭和から西暦に変換します",
 		},
-		cli.IntFlag{
-			Name:  "heisei, H",
-			Usage: "平成から西暦に変換します",
+		&cli.IntFlag{
+			Name:    "heisei",
+			Aliases: []string{"H"},
+			Usage:   "平成から西暦に変換します",
 		},
-		cli.IntFlag{
-			Name:  "reiwa, R",
-			Usage: "令和から西暦に変換します",
+		&cli.IntFlag{
+			Name:    "reiwa",
+			Aliases: []string{"R"},
+			Usage:   "令和から西暦に変換します",
 		},
-		cli.BoolFlag{
-			Name:  "kanji, K",
-			Usage: "元号を漢字で出力します",
+		&cli.BoolFlag{
+			Name:    "kanji",
+			Aliases: []string{"K"},
+			Usage:   "元号を漢字で出力します",
 		},
-		cli.BoolFlag{
-			Name:  "help, h",
-			Usage: "このヘルプを表示します",
+		&cli.BoolFlag{
+			Name:    "help",
+			Aliases: []string{"h"},
+			Usage:   "このヘルプを表示します",
 		},
-		cli.BoolFlag{
-			Name:  "version, v",
-			Usage: "バージョンを表示します",
+		&cli.BoolFlag{
+			Name:    "version",
+			Aliases: []string{"v"},
+			Usage:   "バージョンを表示します",
 		},
 	}
 }
@@ -116,69 +126,73 @@ OPTIONS:
 `
 }
 
-func action() func(c *cli.Context) error {
-	return func(c *cli.Context) error {
-		if c.Bool("h") {
-			_ = cli.ShowAppHelp(c)
+func action() cli.ActionFunc {
+	return func(ctx context.Context, cmd *cli.Command) error {
+		if cmd.Bool("help") {
+			return cli.ShowAppHelp(cmd)
+		}
+		if cmd.Bool("version") {
+			cli.ShowVersion(cmd)
 			return nil
 		}
-		if c.Bool("v") {
-			cli.ShowVersion(c)
-			return nil
+		if mustWarekiToAD(cmd) {
+			return warekiToAD(cmd)
 		}
-		if mustWarekiToAD(c) {
-			warekiToAD(c)
-			return nil
-		}
-		return acToWareki(c)
+		return acToWareki(cmd)
 	}
 }
 
-func mustWarekiToAD(c *cli.Context) bool {
-	return c.Int("M") != 0 ||
-		c.Int("T") != 0 ||
-		c.Int("S") != 0 ||
-		c.Int("H") != 0 ||
-		c.Int("R") != 0
+func mustWarekiToAD(cmd *cli.Command) bool {
+	return cmd.Int("meiji") != 0 ||
+		cmd.Int("taisho") != 0 ||
+		cmd.Int("showa") != 0 ||
+		cmd.Int("heisei") != 0 ||
+		cmd.Int("reiwa") != 0
 }
 
-func warekiToAD(c *cli.Context) {
+func warekiToAD(cmd *cli.Command) error {
 	switch {
-	case c.Int("M") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAD(c.Int("M")))
-	case c.Int("T") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAD(c.Int("T")))
-	case c.Int("S") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAD(c.Int("S")))
-	case c.Int("H") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAD(c.Int("H")))
-	case c.Int("R") != 0:
-		fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAD(c.Int("R")))
+	case cmd.Int("meiji") != 0:
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.MEIJI().ToAD(int(cmd.Int("meiji"))))
+		return err
+	case cmd.Int("taisho") != 0:
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.TAISHO().ToAD(int(cmd.Int("taisho"))))
+		return err
+	case cmd.Int("showa") != 0:
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.SHOWA().ToAD(int(cmd.Int("showa"))))
+		return err
+	case cmd.Int("heisei") != 0:
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.HEISEI().ToAD(int(cmd.Int("heisei"))))
+		return err
+	case cmd.Int("reiwa") != 0:
+		_, err := fmt.Fprintf(clo.outStream, "%d\n", wareki.REIWA().ToAD(int(cmd.Int("reiwa"))))
+		return err
 	}
+	return nil
 }
 
-func acToWareki(c *cli.Context) error {
+func acToWareki(cmd *cli.Command) error {
 	// 西暦から和暦に変換
 	// 引数がないときはシステム日付を和暦に変換
-	if c.NArg() == 0 {
-		str, err := _acToWareki(time.Now(), c.Bool("K"))
+	if cmd.Args().Len() == 0 {
+		str, err := _acToWareki(time.Now(), cmd.Bool("kanji"))
 		if err != nil {
 			return err
 		}
-		fmt.Fprintf(clo.outStream, "%s\n", str)
-		return nil
+		_, err = fmt.Fprintf(clo.outStream, "%s\n", str)
+		return err
 	}
 
 	// 引数があるときは日付にパースして和暦に変換
-	s := c.Args()[0]
+	s := cmd.Args().Get(0)
 	if s != "-" {
-		return printWareki(c, s)
+		return printWareki(cmd, s)
 	}
 
 	scanner := bufio.NewScanner(clo.inputStream)
 	for scanner.Scan() {
 		text := scanner.Text()
-		if err := printWareki(c, text); err != nil {
+		if err := printWareki(cmd, text); err != nil {
 			return err
 		}
 	}
@@ -199,7 +213,7 @@ func _acToWareki(t time.Time, kanji bool) (string, error) {
 	return g.ShortName() + strconv.Itoa(year), nil
 }
 
-func printWareki(c *cli.Context, s string) error {
+func printWareki(cmd *cli.Command, s string) error {
 	match, err := regexp.MatchString("^\\d{4}(/\\d{2}(/\\d{2})?)?$", s)
 	if err != nil {
 		return err
@@ -223,11 +237,11 @@ func printWareki(c *cli.Context, s string) error {
 		return err
 	}
 
-	str, err := _acToWareki(t, c.Bool("K"))
+	str, err := _acToWareki(t, cmd.Bool("kanji"))
 	if err != nil {
 		return err
 	}
 
-	fmt.Fprintf(clo.outStream, "%s\n", str)
-	return nil
+	_, err = fmt.Fprintf(clo.outStream, "%s\n", str)
+	return err
 }
